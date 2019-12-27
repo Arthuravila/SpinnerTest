@@ -2,6 +2,9 @@ package com.example.droptest.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import com.example.droptest.feature.CustomSpinnerAdapter
 import com.example.droptest.R
@@ -17,40 +20,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel.fetchMarca()
-
-        mainViewModel.spinnerMarcaEntries.observe(this, Observer { spinnerData ->
-            val stateAdapter = CustomSpinnerAdapter(this, R.id.marcaSpinnerText, spinnerData.toTypedArray())
-            marcaSpinner?.adapter = stateAdapter
-        })
-
+        getMarcas()
     }
 
-/*    private fun getMarca() {
-        val call = ApiInitializer().apiService().listMarcas()
-        call.enqueue(object : Callback<List<Marca>?> {
-            override fun onResponse(
-                call: Call<List<Marca>?>?,
-                response: Response<List<Marca>?>?
-            ) {
-                val responseList = response?.body()
-                val mutableResponse = responseList?.toMutableList()
-                mutableResponse?.add(
-                    0,
-                    Marca(
-                        "Selecione uma marca",
-                        ""
-                    )
-                )
-                val finalList = mutableResponse as List<Marca>
-                val stateAdapter =
-                    CustomSpinnerAdapter(
-                        this@MainActivity,
-                        R.id.marcaSpinnerText,
-                        finalList.toTypedArray()
-                    )
+    private fun getMarcas() {
+        mainViewModel.fetchMarca()
+        mainViewModel.spinnerMarcaEntries.observe(this, Observer { spinnerData ->
+            val stateAdapter =
+                CustomSpinnerAdapter(this, R.id.marcaSpinnerText, spinnerData.toTypedArray())
+            marcaSpinner?.adapter = stateAdapter
 
-                marcaSpinner?.adapter = stateAdapter
+            marcaSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val marca = stateAdapter.getItem(position)
+                    Log.d("marcapos",marca.toString())
+                    //   getModelos(marca.id)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
+        })
+    }
+
+/*
 
                 marcaSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
@@ -74,14 +72,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(
-                call: Call<List<Marca>?>?,
-                t: Throwable?
-            ) {
-                Log.e("onFailure error", t?.message)
-            }
-        })
-    }
+
 
     private fun getModelos(id: String?) {
         val call = ApiInitializer().apiService().listModelos(id)

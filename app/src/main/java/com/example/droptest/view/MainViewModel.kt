@@ -36,7 +36,6 @@ class MainViewModel(
                 val immutableList = Collections.unmodifiableList(joined)
                 _spinnerMarcaEntries.value = immutableList
             }.onFailure {
-                Log.d("veio",it.message)
                 it.printStackTrace()
             }
         }

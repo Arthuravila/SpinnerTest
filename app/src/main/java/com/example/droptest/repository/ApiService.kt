@@ -8,6 +8,7 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 
 interface ApiService {
+    @Headers("Content-Type: application/json", "Accept: application/json")
     @GET("marcas.json")
     suspend fun listMarcas() : Response<List<Marca>>
 
