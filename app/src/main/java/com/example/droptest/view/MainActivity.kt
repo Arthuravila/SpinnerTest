@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getMarcas() {
-        mainViewModel.fetchMarca()
+        mainViewModel.fetchMarcas()
         mainViewModel.spinnerMarcaEntries.observe(this, Observer { spinnerData ->
             val stateAdapter =
                 CustomSpinnerAdapter(this, R.id.marcaSpinnerText, spinnerData.toTypedArray())
@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity() {
                     id: Long
                 ) {
                     val marca = stateAdapter.getItem(position)
-                    Log.d("marcapos",marca.toString())
-                    //   getModelos(marca.id)
+                    getModelos(marca.id.toString())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -48,57 +47,29 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-/*
-
-                marcaSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        if (isSpinnerInitial) {
-                            isSpinnerInitial = false
-                            return
-                        }
-                        val marca = stateAdapter.getItem(position)
-                        getModelos(marca.id)
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                    }
-
-                }
-            }
-
-
 
     private fun getModelos(id: String?) {
-        val call = ApiInitializer().apiService().listModelos(id)
-        call.enqueue(object : Callback<List<Modelo>?> {
-            override fun onResponse(
-                call: Call<List<Modelo>?>?,
-                response: Response<List<Modelo>?>?
-            ) {
-                val responseList = response?.body()
-                val stateAdapter =
-                    CustomSpinnerAdapter(
-                        this@MainActivity,
-                        R.id.modeloSpinnerText,
-                        responseList?.toTypedArray()
-                    )
-                modeloSpinner?.adapter = stateAdapter
-            }
+        mainViewModel.fetchModelos(id)
+        mainViewModel.spinnerModeloEntries.observe(this, Observer { spinnerData ->
+            val stateAdapter =
+                CustomSpinnerAdapter(this, R.id.modeloSpinnerText, spinnerData.toTypedArray())
+            modeloSpinner?.adapter = stateAdapter
 
-            override fun onFailure(
-                call: Call<List<Modelo>?>?,
-                t: Throwable?
-            ) {
-                Log.e("onFailure error", t?.message)
+            modeloSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val modelo = stateAdapter.getItem(position)
+                    // getModelos(marca.id.toString())
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
             }
         })
-    }*/
-
+    }
 
 }

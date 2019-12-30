@@ -12,12 +12,13 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class MainViewModel(
-    private val marcaRepository: Repository
+    private val repository: Repository
 ) : ViewModel() {
 
-    private val marcas = listOf(Marca("Selecione uma marca",null))
+    private val marca = listOf(Marca("Selecione uma marca",null))
+    private val modelo = listOf(Modelo("Selecione um modelo",null))
 
-    private val _spinnerMarcaEntries = MutableLiveData<List<Marca>>(marcas)
+    private val _spinnerMarcaEntries = MutableLiveData<List<Marca>>(marca)
     val spinnerMarcaEntries: LiveData<List<Marca>>
         get() = _spinnerMarcaEntries
 
@@ -25,16 +26,32 @@ class MainViewModel(
     val spinnerModeloEntries: LiveData<List<Modelo>>
         get() = _spinnerModeloEntries
 
-    fun fetchMarca() {
+    fun fetchMarcas() {
         viewModelScope.launch {
             runCatching {
-                marcaRepository.getData()
+                repository.getDataMarcas()
             }.onSuccess {
                 val joined = mutableListOf<Marca>()
-                joined.addAll(marcas)
+                joined.addAll(marca)
                 it?.let { it1 -> joined.addAll(it1) }
                 val immutableList = Collections.unmodifiableList(joined)
                 _spinnerMarcaEntries.value = immutableList
+            }.onFailure {
+                it.printStackTrace()
+            }
+        }
+    }
+
+    fun fetchModelos(id: String?) {
+        viewModelScope.launch {
+            runCatching {
+                repository.getDataModelos(id)
+            }.onSuccess {
+                val joined = mutableListOf<Modelo>()
+                joined.addAll(modelo)
+                it?.let { it1 -> joined.addAll(it1) }
+                val immutableList = Collections.unmodifiableList(joined)
+                _spinnerModeloEntries.value = immutableList
             }.onFailure {
                 it.printStackTrace()
             }
