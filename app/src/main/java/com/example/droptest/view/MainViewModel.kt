@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.droptest.model.Ano
 import com.example.droptest.model.Marca
 import com.example.droptest.model.Modelo
+import com.example.droptest.model.Veiculo
 import com.example.droptest.repository.Repository
 import kotlinx.coroutines.launch
 import java.util.*
@@ -31,6 +32,11 @@ class MainViewModel(
     private val _spinnerAnoEntries = MutableLiveData<List<Ano>>()
     val spinnerAnoEntries: LiveData<List<Ano>>
         get() = _spinnerAnoEntries
+
+    private val _veiculoLiveData = MutableLiveData<Veiculo>()
+    val veiculoLiveData: LiveData<Veiculo>
+        get() = _veiculoLiveData
+
 
     fun fetchMarcas() {
         viewModelScope.launch {
@@ -74,6 +80,18 @@ class MainViewModel(
                 it?.let { it1 -> joined.addAll(it1) }
                 val immutableList = Collections.unmodifiableList(joined)
                 _spinnerAnoEntries.value = immutableList
+            }.onFailure {
+                it.printStackTrace()
+            }
+        }
+    }
+
+    fun fetchValor(marcaId: String?, modeloId: String?, anoId: String?) {
+        viewModelScope.launch {
+            runCatching {
+                repository.getDataValor(marcaId, modeloId, anoId)
+            }.onSuccess {
+               _veiculoLiveData.value = it
             }.onFailure {
                 it.printStackTrace()
             }

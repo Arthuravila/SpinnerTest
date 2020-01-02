@@ -3,6 +3,7 @@ package com.example.droptest.repository
 import com.example.droptest.model.Ano
 import com.example.droptest.model.Marca
 import com.example.droptest.model.Modelo
+import com.example.droptest.model.Veiculo
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -18,5 +19,8 @@ interface ApiService {
 
     @GET("veiculo/{marcaId}/{modeloId}.json")
     suspend fun listAnos(@Path("marcaId") marcaId: String?, @Path("modeloId") modeloId: String?) : Response<List<Ano>>
+
+    @GET("veiculo/{marcaId}/{modeloId}/{anoId}.json")
+    suspend fun listValor(@Path("marcaId") marcaId: String?, @Path("modeloId") modeloId: String?, @Path("anoId") anoId: String?) : Response<Veiculo>
 
 }

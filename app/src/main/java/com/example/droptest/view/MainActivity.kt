@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.example.droptest.feature.CustomSpinnerAdapter
 import com.example.droptest.R
 import com.example.droptest.model.Marca
+import com.example.droptest.model.Modelo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -90,14 +91,26 @@ class MainActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    // getAnos(modelo.id.toString(), marca.toString())
+                    val marca = marcaSpinner.selectedItem
+                    val modelo = modeloSpinner.selectedItem
+                    val ano = stateAdapter.getItem(position)
+                    getValor((marca as Marca).id.toString(), (modelo as Modelo).id.toString(), ano.id.toString())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
             }
         })
+    }
+
+    private fun getValor(marcaId: String?, modeloId: String?, anoId: String?) {
+        mainViewModel.fetchValor(marcaId, modeloId, anoId)
+        mainViewModel.veiculoLiveData.observe(this, Observer {
+            Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_LONG).show()
+        })
 
     }
+
+
 
 }
