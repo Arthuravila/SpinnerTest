@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.example.droptest.view.MainViewModel"/>
+            type="com.example.droptest.view.MainViewModel" />
     </data>
 
     <LinearLayout
@@ -17,23 +18,30 @@
         tools:context=".view.MainActivity">
 
         <Spinner
-            android:layout_gravity="center_horizontal"
             android:id="@+id/marcaSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
 
         <Spinner
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/modeloSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
+
+        <Spinner
+            android:id="@+id/anoSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
 
         <Button
-            android:layout_margin="10dp"
             android:id="@+id/buttonSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:text="@string/submit" />
     </LinearLayout>
 </layout>

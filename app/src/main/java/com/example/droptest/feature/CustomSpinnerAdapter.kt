@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.droptest.R
+import com.example.droptest.model.Ano
 import com.example.droptest.model.Marca
 import com.example.droptest.model.Modelo
+import kotlinx.android.synthetic.main.ano_list.view.*
 import kotlinx.android.synthetic.main.marca_list.view.*
 import kotlinx.android.synthetic.main.modelo_list.view.*
 
@@ -48,7 +50,18 @@ class CustomSpinnerAdapter<T>(
             )
             view.modeloSpinnerText.text = item.name
             return view
+        } else {
+            val item = getItem(position) as Ano
+            val view = convertView ?: LayoutInflater.from(context).inflate(
+                R.layout.ano_list,
+                parent,
+                false
+            )
+            view.anoSpinnerText.text = item.name
+            return view
         }
+
+
         return null
     }
 }

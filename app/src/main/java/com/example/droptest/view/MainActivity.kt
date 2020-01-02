@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import com.example.droptest.feature.CustomSpinnerAdapter
 import com.example.droptest.R
+import com.example.droptest.model.Marca
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -62,14 +65,39 @@ class MainActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
+                    val marca = marcaSpinner.selectedItem
                     val modelo = stateAdapter.getItem(position)
-                    // getModelos(marca.id.toString())
+                    getAnos((marca as Marca).id.toString(), modelo.id.toString())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
             }
         })
+    }
+
+    private fun getAnos(marcaId: String?, modeloId: String?) {
+        mainViewModel.fetchAnos(marcaId, modeloId)
+        mainViewModel.spinnerAnoEntries.observe(this, Observer { spinnerData ->
+            val stateAdapter =
+                CustomSpinnerAdapter(this, R.id.anoSpinnerText, spinnerData.toTypedArray())
+            anoSpinner?.adapter = stateAdapter
+
+            anoSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    // getAnos(modelo.id.toString(), marca.toString())
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
+        })
+
     }
 
 }
