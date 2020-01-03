@@ -20,6 +20,14 @@ class MainViewModel(
     private val marca = listOf(Marca("Selecione uma marca",null))
     private val modelo = listOf(Modelo("Selecione um modelo",null))
     private val ano = listOf(Ano("Selecione um ano",null))
+    private lateinit var preco: String
+    private lateinit var codigo: String
+
+    init {
+        preco = "R$ 20.000,50"
+        codigo = "001267-0"
+    }
+
 
     private val _spinnerMarcaEntries = MutableLiveData<List<Marca>>(marca)
     val spinnerMarcaEntries: LiveData<List<Marca>>

@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.core.view.get
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.droptest.feature.CustomSpinnerAdapter
 import com.example.droptest.R
@@ -14,15 +14,22 @@ import com.example.droptest.model.Marca
 import com.example.droptest.model.Modelo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.droptest.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
 
     private val mainViewModel: MainViewModel by viewModel()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.viewModel = mainViewModel
+        binding.lifecycleOwner = this
+
 
         getMarcas()
     }
