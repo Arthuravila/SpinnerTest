@@ -8,33 +8,39 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation.findNavController
 import com.example.droptest.feature.CustomSpinnerAdapter
 import com.example.droptest.R
 import com.example.droptest.model.Marca
 import com.example.droptest.model.Modelo
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import com.example.droptest.databinding.ActivityMainBinding
+// import com.example.droptest.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel: MainViewModel by viewModel()
-    private lateinit var binding: ActivityMainBinding
+    // private val mainViewModel: MainViewModel by viewModel()
+    // private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val splashFragment = SplashFragment()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.nav_host_fragment, splashFragment)
+            .commit()
+
+
+/*        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = this
 
-
-        getMarcas()
+        getMarcas()*/
     }
 
-    private fun getMarcas() {
+/*    private fun getMarcas() {
         mainViewModel.fetchMarcas()
         mainViewModel.spinnerMarcaEntries.observe(this, Observer { spinnerData ->
             val stateAdapter =
@@ -116,8 +122,67 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_LONG).show()
         })
 
-    }
+    }*/
 
+/*
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.droptest.view.MainViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        tools:context=".view.MainActivity">
+
+        <Spinner
+            android:id="@+id/marcaSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <Spinner
+            android:id="@+id/modeloSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
+
+        <Spinner
+            android:id="@+id/anoSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:id="@+id/buttonSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/submit" />
+
+        <TextView
+            android:id="@+id/txt_preco"
+            android:text="@{viewModel.preco}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txt_codigo"
+            android:text="@{viewModel.codigo}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</layout>
+*/
 
 }
