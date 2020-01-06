@@ -31,9 +31,13 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.nav_host_fragment, splashFragment)
             .commit()
+    }
 
+/*
+    override fun onSupportNavigateUp() =
+        findNavController(this, R.id.nav_host_fragment).navigateUp()
 
-/*        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+       binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = this
 
@@ -185,4 +189,4 @@ class MainActivity : AppCompatActivity() {
 </layout>
 */
 
-}
+
