@@ -27,10 +27,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val splashFragment = SplashFragment()
+/*        val splashFragment = SplashFragment()
         supportFragmentManager.beginTransaction()
             .add(R.id.nav_host_fragment, splashFragment)
-            .commit()
+            .commit()*/
     }
 
 /*
